@@ -1,0 +1,11 @@
+<h2>Lista de productos</h2>
+{{#if listExists}}
+    <ul>
+        {{#each productos}}
+            <li>
+                <a href={{this.thumbnail}}>{{this.title}} - ${{this.price}}</a></li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+<a href="/api/productos/"><button>Formulario de entrada</button></a>

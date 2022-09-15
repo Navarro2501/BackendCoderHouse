@@ -24,11 +24,10 @@ var productos = [
         "id": 3
     }
 ]
-
 var currentID = 3;
 
 router.get('/', (req, res) => {
-    res.render("main", {})
+    res.json(productos);
 });
 
 router.get("/:id", (req, res) => {

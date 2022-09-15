@@ -4,39 +4,43 @@ const e = require('express');
 const { type } = require('os');
 const router = Router();
 
-var productos = [
+var productos = () => [
     {
-        "title": "Escuadra",
-        "price": 123.45,
-        "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Squadra_45.jpg",
-        "id": 1
+        title: "Escuadra",
+        price: 123.45,
+        thumbnail: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Squadra_45.jpg",
+        id: 1
     },
     {
-        "title": "Calculadora",
-        "price": 234.56,
-        "thumbnail": "https://www.officedepot.com.mx/medias/79530.gif-1200ftw?context=bWFzdGVyfHJvb3R8MjQxNDYyfGltYWdlL2dpZnxoZDIvaDk4Lzk0MDI3NjE2NDIwMTQuZ2lmfGRmZmNkM2ZhNjkzNmViN2RkMGYxNWMzODZmNjA2ZWQwNDgzMTE5YTQ0MjRmNGM5NjIxOTM4MTMzNzExNDdmYWQ",
-        "id": 2
+        title: "Calculadora",
+        price: 234.56,
+        thumbnail: "https://www.officedepot.com.mx/medias/79530.gif-1200ftw?context=bWFzdGVyfHJvb3R8MjQxNDYyfGltYWdlL2dpZnxoZDIvaDk4Lzk0MDI3NjE2NDIwMTQuZ2lmfGRmZmNkM2ZhNjkzNmViN2RkMGYxNWMzODZmNjA2ZWQwNDgzMTE5YTQ0MjRmNGM5NjIxOTM4MTMzNzExNDdmYWQ",
+        id: 2
     },
     {
-        "title": "Globo Terráqueo",
-        "price": 345.67,
-        "thumbnail": "https://m.media-amazon.com/images/I/91JEXV3kk1L._AC_SL1500_.jpg",
-        "id": 3
+        title: "Globo Terráqueo",
+        price: 345.67,
+        thumbnail: "https://m.media-amazon.com/images/I/91JEXV3kk1L._AC_SL1500_.jpg",
+        id: 3
     }
 ]
 
 var currentID = 3;
 
-router.get('/', (req, res) => {
-    res.render("main", {})
+router.get('/productos', (req, res) => {
+    res.render("main", { productos: productos(), listExists: true});
 });
 
-router.get("/:id", (req, res) => {
-    // Devuelve un producto según su ID
-    let id = Number.parseInt(req.params.id);
-    let objetoID = productos.find(elemento => elemento['id'] == id);
-    objetoID == undefined ? res.send("Objeto no encontrado") : res.json(objetoID)
-});
+// router.get("/:id", (req, res) => {
+//     // Devuelve un producto según su ID
+//     let id = Number.parseInt(req.params.id);
+//     let objetoID = productos.find(elemento => elemento['id'] == id);
+//     objetoID == undefined ? res.send("Objeto no encontrado") : res.json(objetoID)
+// });
+
+router.get("/", (req, res) => {
+    res.render("formulario");
+})
 
 router.post("/", (req, res) => {
     // Recibe y agrega un producto, y lo devuelve con un ID asignado
@@ -47,9 +51,11 @@ router.post("/", (req, res) => {
         
         let nuevoProducto = {"title": title, "price": price, "thumbnail": thumbnail, "id": currentID + 1 };
         try {
-            productos.push(nuevoProducto)
+            let currentProducts = productos();
+            currentProducts.push(nuevoProducto);
+            productos = () => currentProducts;
             currentID += 1;
-            res.json(nuevoProducto);
+            res.redirect("/api/productos/productos");
             res.send()
         } catch(err){
             res.send("Error de escritura");

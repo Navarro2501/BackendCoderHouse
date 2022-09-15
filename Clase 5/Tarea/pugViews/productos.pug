@@ -1,0 +1,13 @@
+extends index.pug 
+
+block content 
+    h1="Catálogo de productos"
+
+    ul 
+        each producto in productos 
+            a(href=`${producto.thumbnail}`) 
+                li=`${producto.title} - ${producto.price}`
+    br
+    a(href="/api/productos/")
+        button="Formulario de entrada" 
+    

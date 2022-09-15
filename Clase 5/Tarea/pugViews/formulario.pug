@@ -1,0 +1,19 @@
+extends index.pug 
+
+block content 
+    h1="Ingreso de productos"
+
+    form(action="/api/productos", method="post") 
+        label(for="title")="Titulo"
+        input(type="text", name="title")
+        br
+        label(for="price")="Precio"
+        input(type="text", name="price")
+        br
+        label(for="thumbnail")="URL de la imagen"
+        input(type="text", name="thumbnail")
+        br
+        button(action="submit")="Guardar"
+
+    a(href="/api/productos/productos")
+        button="Ir al inventario"

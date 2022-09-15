@@ -1,8 +1,5 @@
-const fs = require('fs');
-const { Router } = require('express');
 const e = require('express');
-const { type } = require('os');
-const router = Router();
+const router = e.Router();
 
 var productos = [
     {
@@ -24,12 +21,15 @@ var productos = [
         "id": 3
     }
 ]
-
 var currentID = 3;
 
-router.get('/', (req, res) => {
-    res.render("main", {})
+router.get("/", (req, res) => {
+    res.render("partials/formulario");
 });
+
+router.get("/productos", (req, res) => {
+    res.render("partials/productos", {productos: productos});
+})
 
 router.get("/:id", (req, res) => {
     // Devuelve un producto según su ID
@@ -49,8 +49,7 @@ router.post("/", (req, res) => {
         try {
             productos.push(nuevoProducto)
             currentID += 1;
-            res.json(nuevoProducto);
-            res.send()
+            res.render("partials/productos", { productos: productos });
         } catch(err){
             res.send("Error de escritura");
         }

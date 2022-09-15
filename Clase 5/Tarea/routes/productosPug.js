@@ -24,12 +24,15 @@ var productos = [
         "id": 3
     }
 ]
-
 var currentID = 3;
 
-router.get('/', (req, res) => {
-    res.render("main", {})
+router.get('/productos', (req, res) => {
+    res.render('productos.pug', {productos: productos});
 });
+
+router.get('/', (req, res) => {
+    res.render('formulario.pug');
+})
 
 router.get("/:id", (req, res) => {
     // Devuelve un producto según su ID
@@ -41,18 +44,18 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
     // Recibe y agrega un producto, y lo devuelve con un ID asignado
     let { title, price, thumbnail } = req.body;
-    if(title != undefined && price != undefined && thumbnail != undefined) {
+    if(title != '' && price != '' && thumbnail != '') {
         price = Number.parseInt(price);
-        if(typeof(price) != "number") res.send({ "error": "El precio debe ser un número." })
-        
-        let nuevoProducto = {"title": title, "price": price, "thumbnail": thumbnail, "id": currentID + 1 };
-        try {
-            productos.push(nuevoProducto)
-            currentID += 1;
-            res.json(nuevoProducto);
-            res.send()
-        } catch(err){
-            res.send("Error de escritura");
+        if(typeof(price) != "number"|| price === NaN) res.send({ "error": "El precio debe ser un número." })
+        else{
+            let nuevoProducto = {"title": title, "price": price, "thumbnail": thumbnail, "id": currentID + 1 };
+            try {
+                productos.push(nuevoProducto)
+                currentID += 1;
+                res.redirect('/api/productos/productos')
+            } catch(err){
+                res.send("Error de escritura");
+            }
         }
     }
     else {
