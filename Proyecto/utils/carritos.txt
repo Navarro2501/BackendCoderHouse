@@ -1,0 +1,1 @@
+[{"timestamp":1664980993881,"productos":[{"id":2,"nombre":"Pasta dental","descripcion":"Pasta dental 300ml","codigo":192837192837,"urlFoto":"https://cdn-icons-png.flaticon.com/512/811/811907.png","precio":25.5,"stock":1}],"id":2},{"timestamp":1664987405185,"productos":[],"id":2}]
